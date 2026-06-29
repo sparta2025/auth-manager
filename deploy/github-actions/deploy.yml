@@ -1,5 +1,10 @@
 name: Build & Deploy
 
+# Required GitHub Secrets (Settings → Secrets and variables → Actions):
+#   VPS_HOST     — IP/domain сервера
+#   VPS_USER     — SSH пользователь (root/deploy)
+#   VPS_SSH_KEY  — Приватный SSH-ключ
+
 on:
   push:
     branches: [main]
