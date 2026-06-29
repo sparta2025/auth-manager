@@ -1,0 +1,1 @@
+Thin views, serializers only validate, services hold business logic.

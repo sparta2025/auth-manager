@@ -1,0 +1,1 @@
+Implement registration, login, logout, password hashing, inactive-user checks, soft delete, current-user resolution explicitly.

@@ -1,0 +1,1 @@
+Design normalized schema. Users use soft delete. Include timestamps. Foreign keys and indexes.

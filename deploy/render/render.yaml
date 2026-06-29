@@ -1,0 +1,41 @@
+# render.yaml — Render.com Blueprint
+# Документация: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: auth-manager-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: auth-manager-db
+          property: connectionString
+      - key: SECRET_SALT
+        generateValue: true
+      - key: SMTP_ENABLED
+        value: "false"
+      - key: ADMIN_EMAIL
+        value: admin@example.com
+      - key: FRONTEND_URL
+        fromService:
+          type: web
+          name: auth-manager-frontend
+          property: host
+    healthCheckPath: /health
+
+  - type: web
+    name: auth-manager-frontend
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    envVars:
+      - key: VITE_API_URL
+        value: ""
+
+databases:
+  - name: auth-manager-db
+    databaseName: auth_db
+    user: auth_user
+    plan: free

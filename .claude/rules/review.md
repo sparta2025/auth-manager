@@ -1,0 +1,1 @@
+Self-review architecture, security, duplication, tests before finishing.

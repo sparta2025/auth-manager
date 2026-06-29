@@ -1,0 +1,1 @@
+Centralized exception handling. Consistent API error format.

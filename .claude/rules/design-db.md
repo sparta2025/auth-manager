@@ -1,0 +1,1 @@
+Create ER diagram before coding. Document tables and relations.

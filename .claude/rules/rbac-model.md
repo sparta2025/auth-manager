@@ -1,0 +1,1 @@
+Define RBAC entities, permission matrix, inheritance rules, deny-by-default.

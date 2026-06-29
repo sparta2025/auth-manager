@@ -1,0 +1,1 @@
+Hash passwords. Never log secrets. Validate input. Generic auth errors. Prevent SQL injection and mass assignment.

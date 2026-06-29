@@ -1,0 +1,1 @@
+Central exception mapping and consistent API errors.

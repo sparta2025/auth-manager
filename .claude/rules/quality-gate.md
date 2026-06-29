@@ -1,0 +1,1 @@
+Before completion verify architecture, tests, docs, security and assignment compliance.

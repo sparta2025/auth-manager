@@ -1,0 +1,1 @@
+Maintain README with architecture, DB schema, auth flow, API examples.

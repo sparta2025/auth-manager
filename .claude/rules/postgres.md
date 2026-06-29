@@ -1,0 +1,1 @@
+Indexes, FK constraints, normalized schema, transactions.

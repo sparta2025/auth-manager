@@ -1,0 +1,1 @@
+Describe architecture, DB, API and security impacts before implementation.

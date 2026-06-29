@@ -1,0 +1,1 @@
+Avoid N+1 queries. Add indexes for lookup columns.

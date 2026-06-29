@@ -1,0 +1,29 @@
+# Python cache — главная причина дублирования миграций
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Alembic compiled cache
+alembic/versions/__pycache__/
+
+# Test and dev artifacts
+.pytest_cache/
+*.db
+*.sqlite
+.env
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Uploads (монтируются как volume в prod)
+uploads/
+
+# Docs (не нужны в образе)
+docs/

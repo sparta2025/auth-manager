@@ -1,0 +1,91 @@
+# ============================================================
+#  Auth Manager v3 — Production Docker Compose
+#  Использование:
+#    docker compose -f docker-compose.prod.yml up -d
+# ============================================================
+
+services:
+  # ── PostgreSQL ───────────────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER:     ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB:       ${DB_NAME:-auth_db}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - internal
+    healthcheck:
+      test:     ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 10s
+      timeout:  5s
+      retries:  5
+
+  # ── FastAPI Backend ──────────────────────────────────────────────────────────
+  app:
+    image: ${DOCKER_REGISTRY:-your-registry}/auth-manager-backend:${VERSION:-latest}
+    build:
+      context:    ./backend
+      dockerfile: Dockerfile
+      target:     runtime
+    restart: always
+    env_file: .env.prod
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+    volumes:
+      - uploads:/app/uploads
+    networks:
+      - internal
+      - public
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:         ["CMD", "curl", "-sf", "http://localhost:8000/health"]
+      interval:     15s
+      timeout:      5s
+      retries:      5
+      start_period: 30s
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism:    1
+        delay:          10s
+        failure_action: rollback
+      restart_policy:
+        condition:  on-failure
+        max_attempts: 3
+
+  # ── Frontend ──────────────────────────────────────────────────────────────────
+  frontend:
+    image: ${DOCKER_REGISTRY:-your-registry}/auth-manager-frontend:${VERSION:-latest}
+    build:
+      context:    ./frontend
+      dockerfile: Dockerfile
+      target:     runtime
+      args:
+        VITE_API_URL: ""    # Nginx проксирует на app
+    restart: always
+    networks:
+      - public
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"    # для Nginx с SSL (подключите certbot volume)
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro    # SSL сертификаты
+
+networks:
+  internal:
+    driver: bridge
+    internal: true    # БД недоступна снаружи
+  public:
+    driver: bridge
+
+volumes:
+  pgdata:
+  uploads:

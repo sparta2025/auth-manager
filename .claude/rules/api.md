@@ -1,0 +1,1 @@
+REST API. Correct HTTP status codes. Validate input.

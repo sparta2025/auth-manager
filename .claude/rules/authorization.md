@@ -1,0 +1,1 @@
+Use RBAC: Users, Roles, Permissions, Resources, Actions. Central permission checks. 401 unauthenticated, 403 forbidden.

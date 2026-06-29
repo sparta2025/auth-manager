@@ -1,0 +1,1 @@
+Every schema change via migration. Never edit applied migrations.

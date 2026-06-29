@@ -1,0 +1,1 @@
+PEP8, typing, meaningful names, small functions.
